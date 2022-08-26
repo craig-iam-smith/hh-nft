@@ -54,20 +54,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
 
     log("----------------------------------------------------")
-    arguments = [
-        vrfCoordinatorV2Address,
-        subscriptionId,
-        networkConfig[chainId]["gasLane"],
-        networkConfig[chainId]["mintFee"],
-        networkConfig[chainId]["callbackGasLimit"],
-        tokenUris,
-    ]
-    const randomIpfsNft = await deploy("RandomIpfsNft", {
-        from: deployer,
-        args: arguments,
-        log: true,
-        waitConfirmations: network.config.blockConfirmations || 1,
-    })
+    await storeImages(imagesLocation)
+//    arguments = [
+//        vrfCoordinatorV2Address,
+//        subscriptionId,
+//        networkConfig[chainId]["gasLane"],
+//        networkConfig[chainId]["mintFee"],
+//        networkConfig[chainId]["callbackGasLimit"],
+//        tokenUris,
+//    ]
+//    const randomIpfsNft = await deploy("RandomIpfsNft", {
+//        from: deployer,
+//        args: arguments,
+//        log: true,
+//        waitConfirmations: network.config.blockConfirmations || 1,
+//    })
 
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
