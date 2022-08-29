@@ -38,7 +38,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         tokenUris = await handleTokenUris()
     }
 
-    if (chainId == 31337) {
+    if (developmentChains.includes(network.name)) {
         // create VRFV2 Subscription
         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
         vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address
@@ -47,28 +47,32 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         subscriptionId = transactionReceipt.events[0].args.subId
         // Fund the subscription
         // Our mock makes it so we don't actually have to worry about sending fund
+
         await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
+        console.log("1")
     } else {
         vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
         subscriptionId = networkConfig[chainId].subscriptionId
     }
 
     log("----------------------------------------------------")
-    await storeImages(imagesLocation)
-//    arguments = [
-//        vrfCoordinatorV2Address,
-//        subscriptionId,
-//        networkConfig[chainId]["gasLane"],
-//        networkConfig[chainId]["mintFee"],
-//        networkConfig[chainId]["callbackGasLimit"],
-//        tokenUris,
-//    ]
-//    const randomIpfsNft = await deploy("RandomIpfsNft", {
-//        from: deployer,
-//        args: arguments,
-//        log: true,
-//        waitConfirmations: network.config.blockConfirmations || 1,
-//    })
+//    await storeImages(imagesLocation)
+
+    arguments = [
+        vrfCoordinatorV2Address,
+        subscriptionId,
+        networkConfig[chainId]["gasLane"],
+        networkConfig[chainId]["mintFee"],   
+        networkConfig[chainId]["callbackGasLimit"],
+        tokenUris,
+      
+    ]
+    const randomIpfsNft = await deploy("RandomIpfsNft", {
+        from: deployer,
+        args: arguments,
+        log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
+    })
 
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {

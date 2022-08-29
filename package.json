@@ -36,6 +36,7 @@
     "@chainlink/token": "^1.1.0",
     "@openzeppelin/contracts": "^4.7.3",
     "babel-eslint": "^10.1.0",
+    "base64-sol": "^1.1.0",
     "dotenv": "^16.0.1",
     "hardhat-shorthand": "^1.0.0"
   },
