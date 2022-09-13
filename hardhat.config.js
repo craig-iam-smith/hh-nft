@@ -57,6 +57,7 @@ module.exports = {
             //     mnemonic: MNEMONIC,
             //   },
             saveDeployments: true,
+            gas: 5000000,
             chainId: 4,
         },
         mainnet: {
